@@ -1,0 +1,7 @@
+#noti_box{
+	height: 300px;
+	width: 300px;
+	position: fixed;
+	right: 0;
+	top: 100%;
+}

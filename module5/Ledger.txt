@@ -1,0 +1,15 @@
+Ledger (accounts table)
+
+SELECT DISTINCT a.patient_id,a.order_id,a.item, SUM(a.amount) as total_amt,SUM(a.to_pay) as total_expected,a.date_added, b.amt,b.code,b.description FROM `accounts` a RIGHT JOIN `daily_expense` b ON 1 = 1 GROUP BY a.`date_added`
+
+INSERT INTO Customers (CustomerName, City, Country)
+SELECT SupplierName, City, Country FROM Suppliers;
+
+
+
+//Credit from account
+INSERT INTO `ledger_temp` (`ref`, `jmt`, `description`, `credit`, `balance`, `date_ref`) SELECT DISTINCT order_id,item,patient_id, SUM(amount),(SUM(to_pay) - SUM(amount)),date_added FROM `accounts` GROUP BY date_added, patient_id
+
+
+//Debit From Daily_expense
+INSERT INTO `ledger_temp` (`ref`, `jmt`, `description`, `debit`, `balance`, `date_ref`) SELECT DISTINCT code,type,description, SUM(amt),SUM(amt),exp_date FROM `daily_expense` GROUP BY `exp_date`

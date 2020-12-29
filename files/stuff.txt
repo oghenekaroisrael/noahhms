@@ -1,0 +1,25 @@
+@font-face {
+	/* RaleWay Thin from - https://www.theleagueofmoveabletype.com, Font Squirrel for Web Font creation with "Adjust Glyph Spacing" -50 */
+    font-family: 'ralewaythin';
+    src: url('font/raleway_thin-webfont.eot');
+    src: url('font/raleway_thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font/raleway_thin-webfont.woff') format('woff'),
+         url('font/raleway_thin-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+ACCIDENT & EMERGENCIES
+This module allows swift registration of patient’s brought in and also volunteers who brought in the said patient.
+It also manages the case file, lab records, prescriptions, schedule surgery,  x-ray and scan of the patient and also can transfer a patient to In-patient department if need be.
+
+OUT PATIENT DEPARTMENT
+These modules allows patient registration for patients who don’t wish to see the doctor but want to carry out tests, x-rays, scans and at some point be transferred to in patient department .
+
+DENTISTRY
+This module is derived from the doctors module.
+Hence, possess all the functions in the doctors module but the test and scans requested for by the dentist are specific to his specialty.
+
+PEDIATRICS
+This module is also derived from the doctors module. This enables all the functions in the doctors module accessible by the pediatrician exempting tests and scans to be done specifically.

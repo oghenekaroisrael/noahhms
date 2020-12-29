@@ -1,0 +1,102 @@
+$res = mysql_query(“select * from table where flag=’0'”);
+while ($row = mysql_fetch_array($res)) {
+$data[] = array(“id” => $row[“id”], “table_name” => $row[“table_name”], “type” =>
+$row[“type”], “val” => $row[“val”], “flag” => $row[“flag”], “col” => $row[“col”]);
+}
+if (!isset($data)) {
+echo “NO CHANGES HAVE BEEN MADE ON Local DB .”;
+}
+if (isset($data)) {
+foreach ($data as $values) {
+//$to_be_sent=$values[‘table_name’].$values[‘type’].$values[‘val’];
+$id = $values[‘id’];
+$t_name = $values[‘table_name’];
+$type = $values[‘type’];
+$val = $values[‘val’];
+$flag = $values[‘flag’];
+$col = $values[‘col’];
+
+//Start
+$ch = curl_init();
+
+//SET POST URL
+curl_setopt($ch, CURLOPT_URL, $URL);
+
+//SET POST  =  TRUE = 1
+curl_setopt($ch, CURLOPT_POST, 1);
+
+//set Number Of POST PARAMETERS
+curl_setopt($ch, CURLOPT_POST, count($data)); //ARRAY ELEMENT COUNT
+
+//set POSTED PARAMETERS
+curl_setopt($ch, CURLOPT_POSTFIELDS, “table_name=$t_name&type=$type&val=$val&col=$col”);
+
+//Commit POST
+curl_exec($ch);
+
+//Update After Recive the HTTP RESPONSE:
+// Get values from response header
+$httpResponse = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//    echo ‘THE ROW ID=  ‘.$id.'<br>’;
+//  echo ‘HTTP CODE FROM RESPONSE ‘ . $httpResponse;
+if ($httpResponse == 200) {
+//This Mean That Insert Already Done On the Other DATABASE
+$updateFlag = 1;
+$Update_FLAGE_FROM_RESPONSE = mysql_query(“UPDATE table SET flag=’$updateFlag’ where id = ‘$id'”);
+}
+} //foreach
+
+//END POST SESSTION FOR ALL CHANGES
+curl_close($ch);
+
+//######################################
+//SENDING DATA AS XMLSTREAM TO THE OTHER DB
+
+$res = mysql_query(“select * from table where flag=’0'”);
+while ($row = mysql_fetch_array($res)) {
+$data[] = array(“id” => $row[“id”], “table_name” => $row[“table_name”], “type” =>
+$row[“type”], “val” => $row[“val”], “flag” => $row[“flag”], “col” => $row[“col”]);
+}
+//USING IF Because SOMETIMES THERE ARE NO CHANGES HAVE BEEN MADE
+if (!isset($data)) {
+echo “NO CHANGES HAVE BEEN MADE .”;
+}
+if (isset($data)) {
+
+try {
+
+//here we will create an XML Structure using dom element in php
+
+//then will import the element we made (DATA ROW ) TO the SIMPLEXML
+
+//because we cannot create an SIMPLE XML Structure from STRING Concatenation ??
+
+$dom = new domDocument;
+$dom->formatOutput = true;
+$root = $dom->appendChild($dom->createElement(“Changedrows”));
+$sxe = simplexml_import_dom($dom);
+foreach ($data as $values) {
+$id = $values[‘id’];
+$t_name = $values[‘table_name’];
+$type = $values[‘type’];
+$val = $values[‘val’];
+$flag = $values[‘flag’];
+$col = $values[‘col’];
+$r = $sxe->addchild(“row”);
+$r->addChild(“id”, $id);
+$r->addChild(“t_name”, $t_name);
+$r->addChild(“type”, $type);
+$r->addChild(“col”, $col);
+$r->addChild(“val”, $val);
+//update changes table
+if ($sxe && $r) {
+$updateFlag = 1;
+$Update_FLAGE = mysql_query(“UPDATE table SET flag=’$updateFlag’ where id = ‘$id'”);
+}
+} //foreach
+echo $sxe->asXML();
+} //try
+catch (exception $e) {
+echo $e->getMessage();
+} //catch
+} //if data

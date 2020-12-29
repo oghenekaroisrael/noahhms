@@ -1,0 +1,1 @@
+ALTER TABLE `prescription` ADD `sales_id` LONGTEXT NOT NULL AFTER `reference`;

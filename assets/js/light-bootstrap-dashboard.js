@@ -1,0 +1,167 @@
+
+var searchVisible = 0;
+var transparent = true;
+
+var transparentDemo = true;
+var fixedTop = false;
+
+var navbar_initialized = false;
+var a=jQuery .noConflict();
+a(document).ready(function(){
+    window_width = a(window).width();
+
+    // check if there is an image set for the sidebar's background
+    lbd.checkSidebarImage();
+
+    // Init navigation toggle for small screens
+    if(window_width <= 600){
+        lbd.initRightMenu();
+    }
+
+    //  Activate the tooltips
+    a('[rel="tooltip"]').tooltip();
+
+    //      Activate the switches with icons
+    if(a('.switch').length != 0){
+        a('.switch')['bootstrapSwitch']();
+    }
+    //      Activate regular switches
+    if(a("[data-toggle='switch']").length != 0){
+         a("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
+    }
+
+    a('.form-control').on("focus", function(){
+        a(this).parent('.input-group').addClass("input-group-focus");
+    }).on("blur", function(){
+        a(this).parent(".input-group").removeClass("input-group-focus");
+    });
+
+    // Fixes sub-nav not working as expected on IOS
+a('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
+});
+
+// activate collapse right menu when the windows is resized
+a(window).resize(function(){
+    if(a(window).width() <= 600){
+        lbd.initRightMenu();
+    }
+});
+
+lbd = {
+    misc:{
+        navbar_menu_visible: 0
+    },
+
+    checkSidebarImage: function(){
+        $sidebar = a('.sidebar');
+        image_src = $sidebar.data('image');
+
+        if(image_src !== undefined){
+            sidebar_container = '<div class="sidebar-background" style="background-image: url(' + image_src + ') "/>'
+            $sidebar.append(sidebar_container);
+        }
+    },
+    initRightMenu: function(){
+         if(!navbar_initialized){
+            $navbar = a('nav').find('.navbar-collapse').first().clone(true);
+
+            $sidebar = a('.sidebar');
+            sidebar_color = $sidebar.data('color');
+
+            $logo = $sidebar.find('.adminogo').first();
+            logo_content = $logo[0].outerHTML;
+
+            ul_content = '';
+
+            $navbar.attr('data-color',sidebar_color);
+
+            //add the content from the regular header to the right menu
+            $navbar.children('ul').each(function(){
+                content_buff = a(this).html();
+                ul_content = ul_content + content_buff;
+            });
+
+            // add the content from the sidebar to the right menu
+            content_buff = $sidebar.find('.nav').html();
+            ul_content = ul_content + content_buff;
+
+
+            ul_content = '<div class="sidebar-wrapper">' +
+                            '<ul class="nav navbar-nav">' +
+                                ul_content +
+                            '</ul>' +
+                          '</div>';
+
+            navbar_content = logo_content + ul_content;
+
+            $navbar.html(navbar_content);
+
+            a('body').append($navbar);
+
+            background_image = $sidebar.data('image');
+            if(background_image != undefined){
+                $navbar.css('background',"url('" + background_image + "')")
+                       .removeAttr('data-nav-image')
+                       .addClass('has-image');
+            }
+
+
+             $toggle = a('.navbar-toggle');
+
+             $navbar.find('a').removeClass('btn btn-round btn-default');
+             $navbar.find('button').removeClass('btn-round btn-fill btn-info btn-primary btn-success btn-danger btn-warning btn-neutral');
+             $navbar.find('button').addClass('btn-simple btn-block');
+
+             $toggle.click(function (){
+                if(lbd.misc.navbar_menu_visible == 1) {
+                    a('html').removeClass('nav-open');
+                    lbd.misc.navbar_menu_visible = 0;
+                    a('#bodyClick').remove();
+                     setTimeout(function(){
+                        $toggle.removeClass('toggled');
+                     }, 400);
+
+                } else {
+                    setTimeout(function(){
+                        $toggle.addClass('toggled');
+                    }, 430);
+
+                    div = '<div id="bodyClick"></div>';
+                    a(div).appendTo("body").click(function() {
+                        a('html').removeClass('nav-open');
+                        lbd.misc.navbar_menu_visible = 0;
+                        a('#bodyClick').remove();
+                         setTimeout(function(){
+                            $toggle.removeClass('toggled');
+                         }, 400);
+                    });
+
+                    a('html').addClass('nav-open');
+                    lbd.misc.navbar_menu_visible = 1;
+
+                }
+            });
+            navbar_initialized = true;
+        }
+
+    }
+}
+
+
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		clearTimeout(timeout);
+		timeout = setTimeout(function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		}, wait);
+		if (immediate && !timeout) func.apply(context, args);
+	};
+};

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>blah</title>
+</head>
+<body>
+<textarea id="text">
+	
+</textarea>
+<button id="speak">Speak</button>
+<script type="text/javascript">
+	var text = document.querySelector("#text");
+	var speak = document.querySelector("#speak");
+
+	function speaknow() {
+		var speech = new speechSynthesisUtterance();
+		speech.rate = .7;
+		speech.pitch = 1;
+		speech.volume = 1;
+		speech.voice = speechSynthesis.getVoices(0);
+		speech.text = text.value;
+		speechSynthesis.speak(speech);
+	}
+
+	speak.onclick = function(e) {
+		e.preventDefault();
+		speaknow();
+	}
+
+</script>
+</body>
+</html>

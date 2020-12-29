@@ -1,0 +1,5 @@
+<li><a href="obs?id=<?php echo $p_id; ?>&ipid=<?php echo $ipid; ?>">Observations</a></li>
+													<li class="divider"></li>
+													<li><a href="dis?id=<?php echo $p_id; ?>&ipid=<?php echo $ipid; ?>">Dispensing</a></li>
+													<li class="divider"></li>
+													<li><a href="fluid?id=<?php echo $p_id; ?>&ipid=<?php echo $ipid; ?>">Fluid</a></li>

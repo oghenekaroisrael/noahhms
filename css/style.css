@@ -1,0 +1,123 @@
+.mmpart{
+display:none;
+}
+.lead{
+height:200px;
+background-color:lightgreen;
+}
+.leadd{
+height:200px;
+background-color:lightgray;
+}
+
+.lea{
+height:200px;
+background-color:purple;
+}
+a.small-circle{
+  border-radius: 100%;
+  background-color: #00a5ff;
+  padding: 10px;
+  color: #fff;
+  text-align: center;
+  margin-left: 10px;
+}
+
+a.small-circle-a{
+  border-radius: 100%;
+  background-color: #b61f5a;
+  padding: 12px;
+  color: #fff;
+  text-align: center;
+  margin-left: 10px;
+}
+.le{
+height:200px;
+background-color:gold;
+}
+.containery{
+margin:10px;
+
+}
+
+.button_list{
+margin-top:2%;
+
+}
+#btm{
+padding:10px;
+font-size:10pt;
+text-transform:capitalize;
+}
+
+.txtbase{
+width:400px;
+padding:5px;
+
+}
+.txtar{
+width:500px;
+height:100px;
+padding:5px;
+resize:none;
+}
+
+.txt{
+width:500px;
+padding:5px;
+
+}
+#subnt{
+padding:15px;
+box-shadow:1px 1px 0px 0px black;
+}
+
+.form_data{
+margin:5%;
+
+}
+.select{
+width:500px;
+padding:5px;
+
+}
+option{
+padding:5px;
+}
+
+.trone{
+float:;
+padding:1%;
+
+}
+.trtwo{
+padding:1%;
+
+}
+.stocks_add{
+display:none;
+opacity:1;
+background-color:white;
+padding:40px;
+margin:20pt;
+width:350pt;
+border:1px solid black;
+top:20%;
+bottom:10%;
+right:30%;
+left:30%;
+height:200px;
+position:fixed;
+
+}
+
+#btnonly{
+width:400px;
+margin-top:5pt;
+font-size:10pt;
+padding:10px;
+
+
+}
+
+
